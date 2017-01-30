@@ -1,15 +1,17 @@
 {
-  "name": "discord_autoposter",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "pos",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./bin/www"
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
+    "debug": "^2.2.0",
     "discord.js": "^11.0.0",
-    "node-persist": "^2.0.8"
+    "ejs": "~2.3.3",
+    "express": "~4.13.1",
+    "morgan": "^1.6.1",
+    "nodemon": "^1.11.0",
+    "serve-favicon": "~2.3.0"
   }
 }

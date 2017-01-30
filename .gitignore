@@ -12,3 +12,5 @@ assets/rev.json
 .env
 .node-persist/
 .DS_Store
+config.json
+old/
