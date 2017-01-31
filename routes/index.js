@@ -7,7 +7,7 @@ var client = require ("../lib/index");
 const config = require("../config.json");
 
 /* GET home page. */
-router.get("/api", function(req, res) {
+router.post("/api", function(req, res) {
   console.log (req);
   let RichEmbed = new Discord.RichEmbed();
   RichEmbed.setAuthor("Buddy","https://phumberdroz.github.io/psychic-octo-rotary-everything/main-menu.png");
