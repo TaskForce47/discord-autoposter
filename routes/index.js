@@ -16,19 +16,31 @@ router.post("/message", function(req, res) {
   if ( !(storage.getItemSync(req.body.execution.id)) ) {
     let RichEmbed = new Discord.RichEmbed();
     RichEmbed.setAuthor("Buddy","https://phumberdroz.github.io/psychic-octo-rotary-everything/main-menu.png");
-    RichEmbed.setColor("#ffb721");
+
     RichEmbed.setDescription(req.body.execution.action_executions.map(e => {
       const str = "**" + e.action.name + "** " + e.status;
       return str;
     }));
-    RichEmbed.setFooter("Running time: " + ((new Date()) - Date.parse(req.body.execution.start_date)));
-    
-    client.channels.get(config.channel).sendEmbed(RichEmbed,"").then(msg => {
-      storage.setItemSync(req.body.execution.id, msg.id);
-      console.log("posted status");
-    }).catch(err => {
-      console.log (err.response.error);
-    });
+    RichEmbed.setFooter("Running time: " + (Date.parse(req.body.execution.start_date) - Date.parse(req.body.execution.finish_date))/1000 + " sec");
+    RichEmbed.setColor("#ffb721");
+    RichEmbed.setTitle(req.body.project.display_name + " " + req.body.execution.pipeline.name);
+    switch (req.body.execution.status) {
+    case "FAILED":
+      RichEmbed.setColor("#f43251");
+      break;
+    case "SUCCESSFUL":
+      RichEmbed.setColor("#00bc00");
+      break;
+    default:
+      RichEmbed.setColor("#ffb721");
+    }
+    client.channels.get(config.channel).sendEmbed(RichEmbed,"");
+    // .then(msg => {
+    //   storage.setItemSync(req.body.execution.id, msg.id);
+    //   console.log("posted status");
+    // }).catch(err => {
+    //   console.log (err.response.error);
+    // });
     res.json({success: true});
   }
 
