@@ -5,19 +5,34 @@ var router = express.Router({
 var Discord = require("discord.js");
 var client = require ("../lib/index");
 const config = require("../config.json");
-
+var storage = require("node-persist");
+storage.initSync();
 /* GET home page. */
-router.post("/api", function(req, res) {
+router.post("/message", function(req, res) {
   console.log ("=== request ===");
   console.log (req.body);
   console.log ("=== request end ===");
-  let RichEmbed = new Discord.RichEmbed();
-  RichEmbed.setAuthor("Buddy","https://phumberdroz.github.io/psychic-octo-rotary-everything/main-menu.png");
-  RichEmbed.setColor("#31e097");
-  RichEmbed.setDescription("**Field1:** asdf \n **Field2:** asdf2 \n @meat");
-  RichEmbed.setFooter("Test Footer");
-  client.channels.get(config.channel).sendEmbed(RichEmbed,"").catch(err =>console.log (err.response.error));
-  res.json({success: true});
+
+  if ( !(storage.getItemSync(req.body.execution.id)) ) {
+    let RichEmbed = new Discord.RichEmbed();
+    RichEmbed.setAuthor("Buddy","https://phumberdroz.github.io/psychic-octo-rotary-everything/main-menu.png");
+    RichEmbed.setColor("#ffb721");
+    RichEmbed.setDescription(req.body.execution.action_executions.map(e => {
+      const str = "**" + e.action.name + "** " + e.status;
+      return str;
+    }));
+    RichEmbed.setFooter("Running time: " + ((new Date()) - Date.parse(req.body.execution.start_date)));
+    
+    client.channels.get(config.channel).sendEmbed(RichEmbed,"").then(msg => {
+      storage.setItemSync(req.body.execution.id, msg.id);
+      console.log("posted status");
+    }).catch(err => {
+      console.log (err.response.error);
+    });
+    res.json({success: true});
+  }
+
+
 });
 
 module.exports = router;
