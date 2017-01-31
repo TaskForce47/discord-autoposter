@@ -8,7 +8,9 @@ const config = require("../config.json");
 
 /* GET home page. */
 router.post("/api", function(req, res) {
+  console.log ("=== request ===");
   console.log (req.body);
+  console.log ("=== request end ===");
   let RichEmbed = new Discord.RichEmbed();
   RichEmbed.setAuthor("Buddy","https://phumberdroz.github.io/psychic-octo-rotary-everything/main-menu.png");
   RichEmbed.setColor("#31e097");
