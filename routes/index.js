@@ -18,10 +18,10 @@ router.post("/message", function(req, res) {
     RichEmbed.setAuthor("Buddy","https://phumberdroz.github.io/psychic-octo-rotary-everything/main-menu.png");
 
     RichEmbed.setDescription(req.body.execution.action_executions.map(e => {
-      const str = "**" + e.action.name + "** " + e.status;
+      const str = "**" + e.action.name + ":** " + e.status;
       return str;
     }));
-    RichEmbed.setFooter("Running time: " + (Date.parse(req.body.execution.start_date) - Date.parse(req.body.execution.finish_date))/1000 + " sec");
+    RichEmbed.setFooter("Running time: " + (Date.parse(req.body.execution.finish_date) - Date.parse(req.body.execution.start_date))/1000 + " sec" +"\n" + req.body.exection.pipeline.target_site_url);
     RichEmbed.setColor("#ffb721");
     RichEmbed.setTitle(req.body.project.display_name + " " + req.body.execution.pipeline.name);
     switch (req.body.execution.status) {
