@@ -21,8 +21,8 @@ router.post("/message", function(req, res) {
       const str = "**" + e.action.name + ":** " + e.status;
       return str;
     }));
-    RichEmbed.setFooter("Running time: " + (Date.parse(req.body.execution.finish_date) - Date.parse(req.body.execution.start_date))/1000 + " sec" +"\n" + req.body.exection.pipeline.target_site_url);
-    RichEmbed.setColor("#ffb721");
+    RichEmbed.setFooter("Running time: " + (Date.parse(req.body.execution.finish_date) - Date.parse(req.body.execution.start_date) )/1000 + " sec" +"\n" + req.body.exection.pipeline.target_site_url);
+    RichEmbed.addField("Commit:", req.body.execution.from_revision.message);
     RichEmbed.setTitle(req.body.project.display_name + " " + req.body.execution.pipeline.name);
     switch (req.body.execution.status) {
     case "FAILED":
